@@ -44,7 +44,19 @@ spec:
   name: eclipse-che
   source: $SOURCE
   sourceNamespace: $OLM_NAMESPACE
-  startingCSV: eclipse-che.v7.13.2
 EOL
 
 kubectl apply -f ${YAML_FILE} -n "${OPERATOR_NAMESPACE}"
+
+count=0
+RETRIES=10
+until kubectl get crd checlusters.org.eclipse.che 1> /dev/null 2> /dev/null || [[ "${count}" -eq "${RETRIES}" ]]; do
+  echo "EclipseChe CRD not installed, will retry after 15 seconds"
+  sleep 15
+  count=$((count + 1))
+done
+
+if [[ "${count}" -eq "${RETRIES}" ]]; then
+  echo "Timed out waiting for EclipseChe CRD to install"
+  exit 1
+fi
