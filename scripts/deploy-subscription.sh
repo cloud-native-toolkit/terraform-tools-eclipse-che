@@ -26,14 +26,6 @@ fi
 YAML_FILE=${TMP_DIR}/eclipse-che-subscription.yaml
 
 cat <<EOL > ${YAML_FILE}
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: ${OPERATOR_NAMESPACE}-operatorgroup
-spec:
-  targetNamespaces:
-  - ${OPERATOR_NAMESPACE}
----
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
